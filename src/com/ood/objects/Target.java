@@ -25,7 +25,13 @@ public class Target {
     private BufferedImage icon; // Declare the buffered image
     private Image img; // Declare the image
 
-    // Constructor with target radius
+    /**
+    * @Author Yaozheng Wang
+    * @Description Constructor with target radius
+    * @Date 2022/4/26 20:46
+    * @Param The float radius
+    * @Return null
+    **/
     public Target(float radius) {
         this.random = new Random();
         this.x = random.nextFloat() * 400 + 400; // Random x location
@@ -38,6 +44,31 @@ public class Target {
             e.printStackTrace();
         }
         this.img = icon.getScaledInstance(128, 128, Image.SCALE_SMOOTH);
+    }
+
+    /**
+    * @Author Yaozheng Wang
+    * @Description The hit condition
+    * @Date 2022/4/26 20:46
+    * @Param null
+    * @Return null
+    **/
+    public void hit(){
+        this.hit = true;
+    }
+
+    /**
+    * @Author Yaozheng Wang
+    * @Description Use graphics to paint the target
+    * @Date 2022/4/26 20:47
+    * @Param The Graphics
+    * @Return null
+    **/
+    public void paint(Graphics g){
+        Graphics2D g2d = (Graphics2D) g;
+        if(!hit){ // The target didn't be hit
+            g2d.drawImage(icon.getScaledInstance((int)(radius*2), (int)(radius * 2), Image.SCALE_SMOOTH), (int)(x - radius), (int)(y - radius), null);
+        }
     }
 
     //------------GETTERS------------------------
@@ -121,19 +152,5 @@ public class Target {
 
     public void setImg(Image img) {
         this.img = img;
-    }
-
-    // The hit condition
-    public void hit(){
-        this.hit = true;
-    }
-
-    // Use graphics to paint the target
-    public void paint(Graphics g){
-        Graphics2D g2d = (Graphics2D) g;
-        if(!hit){ // The target didn't be hit
-            g2d.drawImage(icon.getScaledInstance((int)(radius*2), (int)(radius * 2), Image.SCALE_SMOOTH), (int)(x - radius), (int)(y - radius), null);
-//            g2d.drawOval((int)(x - radius), (int)(y - radius), (int)(radius * 2), (int)(radius * 2));
-        }
     }
 }

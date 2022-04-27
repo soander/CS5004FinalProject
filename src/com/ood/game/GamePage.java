@@ -2,7 +2,6 @@ package com.ood.game;
 
 import com.ood.objects.Shell;
 import com.ood.objects.Target;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -21,41 +20,37 @@ import java.io.IOException;
  * @Author Yaozheng Wang
  * @Date 2022/4/17 1:05
  **/
-public class Game extends JPanel {
-    //Graphics stuff
-    private JButton fireButton;
-    private JFrame parent;
-    private Game me;
+public class GamePage extends JPanel {
+    private final JButton fireButton; // Declare a fire button
 
-    private Thread thread;
-    private String information;
-    private String hitResult;
-    private static int hitCount;
-    private static int missCount;
+    private final String information; // Declare information String
+    private String hitResult; // Declare hit result
+    private static int hitCount; // Declare static hit count
+    private static int missCount; // Declare static miss count
 
-    //game things
-    private Shell shell;
-    private Target target;
+    private Shell shell; // The game object shell
+    private Target target; // The game object target
 
-    //images
-    BufferedImage barrelImg;
-    BufferedImage wheels;
-    BufferedImage background;
+    private BufferedImage barrelImg; // The barrel image
+    private BufferedImage wheels; // The wheels image
+    private BufferedImage background; // The background image
 
-    //timers
-    private JSpinner powerSpinner;
-    private JSpinner angleSpinner;
+    private final JSpinner powerSpinner; // The power spinner
+    private final JSpinner angleSpinner; // The angle spinner
 
-    //general variables
-    private boolean ready; // Did the player ready for next shot?
-    private boolean hitCondition; // Did the player hit a target this shot?
-    private int launchAngle;	//0 to 90, use Math.toRadians(angle) cuz stuff takes radians
-    private float launchPower;	//for use with powerTracker
-    private final double GRAVITY = 9.81;
+    private boolean ready; // Ready for next shot
+    private int launchAngle; // The launch Angle 0 to 90
+    private float launchPower; // The launch power 100 to 170
 
-    public Game(JFrame parent, String mapName) {
-
-        //general variables
+    /**
+    * @Author Yaozheng Wang
+    * @Description The game panel constructor
+    * @Date 2022/4/26 20:07
+    * @Param The String map name
+    * @Return null
+    **/
+    public GamePage(String mapName) {
+        // The information
         launchPower = 100;
         launchAngle = 45;
         ready = true;
@@ -64,22 +59,19 @@ public class Game extends JPanel {
         hitCount = 0;
         missCount = 0;
 
-        //game things
+        // New shell and target
         shell = new Shell(10, 71, 287);
         target = new Target(40);
 
-        //Graphics
-        this.parent = parent;
-        me = this;
+        // New fireButton, powerSpinner and angleSpinner
         fireButton = new JButton("Fire");
         powerSpinner = new JSpinner(new SpinnerNumberModel(100, 100, 170, 5));
         angleSpinner = new JSpinner(new SpinnerNumberModel(45, 0, 90, 1));
 
-        //set initial values
+        // Set the game window size
         this.setPreferredSize(new Dimension(809,306));
 
-
-        //images
+        // Try to read images and catch exception
         try {
             barrelImg = ImageIO.read(new File("images/cannon.png"));
             wheels = ImageIO.read(new File("images/wheel.png"));
@@ -88,32 +80,45 @@ public class Game extends JPanel {
             e.printStackTrace();
         }
 
-        //adding to game panel
+        // Add fireButton, powerSpinner and angleSpinner to game panel
         this.add(fireButton);
         this.add(powerSpinner);
         this.add(angleSpinner);
 
-        //Action Listeners
+        // Add action listeners
         fireButton.addActionListener(new FireButtonListener());
         powerSpinner.addChangeListener(new PowerSpinnerListener());
         angleSpinner.addChangeListener(new AngleSpinnerListener());
     }
 
-
+    /**
+    * @Author Yaozheng Wang
+    * @Description The FireButtonListener to launch a shell
+    * @Date 2022/4/26 20:11
+    * @Param The action event
+    **/
     private class FireButtonListener implements ActionListener, Runnable {
         public void actionPerformed(ActionEvent e) {
             shell = new Shell(10);
-            thread = new Thread(this);
+            // Declare a thread
+            Thread thread = new Thread(this);
             thread.start();
             repaint(1);
         }
 
         @Override
-        public void run() {
+        public void run() { // Use thread run method to launch shell
             launchShell();
         }
     }
 
+    /**
+    * @Author Yaozheng Wang
+    * @Description The PowerSpinnerListener set the launch power
+    * @Date 2022/4/26 20:12
+    * @Param The ChangeEvent
+    * @Return null
+    **/
     public class PowerSpinnerListener implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent e) {
@@ -121,6 +126,13 @@ public class Game extends JPanel {
         }
     }
 
+    /**
+    * @Author Yaozheng Wang
+    * @Description The AngleSpinnerListener set the launch angle
+    * @Date 2022/4/26 20:13
+    * @Param The ChangeEvent
+    * @Return null
+    **/
     public class AngleSpinnerListener implements ChangeListener {
         @Override
         public void stateChanged(ChangeEvent e) {
@@ -129,62 +141,64 @@ public class Game extends JPanel {
         }
     }
 
-    public Shell getShell(){
-        return shell;
-    }
-
-    public void setBallImg(Image img){
-        shell.setImage(img);
-    }
-
-    public void setBackgroundImg(BufferedImage background){
-        this.background = background;
-    }
-
+    /**
+    * @Author Yaozheng Wang
+    * @Description The launch shell method
+    * @Date 2022/4/26 20:17
+    * @Param null
+    * @Return null
+    **/
     private void launchShell() {
         ready = false;
-        double radianAngle=Math.toRadians(launchAngle);
-        shell.setXSpeed((float) (launchPower * Math.cos(Math.toRadians(launchAngle))));
-        shell.setYSpeed((float) (launchPower * Math.sin(Math.toRadians(launchAngle))));
-        double t = 0.01;
-        double viy=launchPower*Math.sin(radianAngle);
+        double radianAngle = Math.toRadians(launchAngle); // Get the radian angle
+        shell.setXSpeed((float) (launchPower * Math.cos(radianAngle))); // Set shell X speed
+        shell.setYSpeed((float) (launchPower * Math.sin(radianAngle))); // Set shell Y speed
+        double t = 0.01; // Set the time
+        double GRAVITY = 9.81;
 
-        double sx=0,sy=0;
-        double vx=0,vy=0;
+        double sx,sy = 0; // The shell's x and y distance
+        double vx,vy; // The shell's x and y speed
 
-        double timeincrement=.065;
+        double timeIncrement =.065; // Set increment time
         if (!ready) {
-            while ((287-sy) < 290){
-                vx=launchPower*Math.cos(radianAngle);
-                vy=launchPower*Math.sin(radianAngle)- GRAVITY * t;
+            while ((287-sy) < 290){ // The shell didn't touch earth
+                vx = shell.getXSpeed();
+                vy = shell.getYSpeed()- GRAVITY * t;
                 try {
-                    thread.sleep(20);
+                    Thread.sleep(20);
                 } catch (InterruptedException ex) {
                     ex.printStackTrace();
                 }
-                sx=vx*t; // hor acceleation is zero
-                sy=vy*t-(0.5 * 9.81 * t * t);
-                t+=timeincrement;
+                sx=vx*t; // The change of shell's x distance after time increment
+                sy=vy*t-(0.5 * 9.81 * t * t); // The change of shell's y distance after time increment
+                t+=timeIncrement;
 
-                shell.setX(71+(int) sx);
-                shell.setY(287 - (int) sy);
+                shell.setX(71+(int) sx); // New x position
+                shell.setY(287 - (int) sy); // New y position
                 repaint(1);
             }
 
+            // Check if shell collision with target
             if(!target.isHit() && shell.checkCollision(target.getX(), target.getY(), target.getRadius())){
                 target.hit();
-                hitCondition = true;
                 hitResult = "You Hit Target !";
                 hitCount++;
                 reset();
             } else {
                 hitResult = "Missed !";
                 missCount++;
-                reset();
+                reset(); // Call reset method
             }
         }
     }
 
+    /**
+    * @Author Yaozheng Wang
+    * @Description The reset method to start new game round
+    * @Date 2022/4/26 20:28
+    * @Param null
+    * @Return null
+    **/
     public void reset(){
         shell.setXSpeed(0);
         shell.setYSpeed(0);
@@ -196,28 +210,42 @@ public class Game extends JPanel {
         powerSpinner.setValue(100);
         angleSpinner.setValue(45);
         ready = true;
-        hitCondition = false;
         repaint(1);
     }
 
+    /**
+    * @Author Yaozheng Wang
+    * @Description The method to new a random target
+    * @Date 2022/4/26 20:30
+    * @Param null
+    * @Return null
+    **/
     public void newTarget(){
         target = new Target(40);
     }
 
+    /**
+    * @Author Yaozheng Wang
+    * @Description The method to paint game panel
+    * @Date 2022/4/26 20:30
+    * @Param The Graphics
+    * @Return null
+    **/
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.drawImage(background, 0, 0, null);
 
-        //game things
+        // Paint shell and target
         shell.paint(g);
         Graphics2D g2d = (Graphics2D) g;
         target.paint(g);
 
-        //Graphics
+        // Paint fireButton, powerSpinner and angleSpinner
         fireButton.setBounds(70, 100, 57, 20);
         powerSpinner.setBounds(70, 70, 53, 20);
         angleSpinner.setBounds(70, 40, 45, 20);
 
+        // Paint the information and hit result
         Font f = new Font("Calibri", Font.BOLD, 30);
         g.setFont(f);
         g.drawString(hitResult, 370, 306/2);
@@ -228,12 +256,11 @@ public class Game extends JPanel {
         g.drawString("Power", 25, 85);
         f = new Font("Helvetica", Font.BOLD, 25);
         g.setFont(f);
-
         g.drawString("HIT MISS", 365, 75);
         g.drawString(Integer.toString(hitCount), 380, 100);
         g.drawString(Integer.toString(missCount), 430, 100);
 
-        //draw Images
+        // Paint the barrel and wheels
         double locationX = 51;
         double locationY = 87;
         AffineTransform tx = AffineTransform.getRotateInstance(Math.toRadians(-launchAngle), locationX, locationY);

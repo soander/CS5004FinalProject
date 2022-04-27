@@ -48,6 +48,31 @@ public class Shell {
         }
     }
 
+    /**
+     * @Author Yaozheng Wang
+     * @Description Check if the shell collision with target
+     * @Date 2022/4/22 15:03
+     * @Param target location x, location y and radius
+     * @Return returns true if shell overlaps with target
+     **/
+    public boolean checkCollision(float x, float y, float radius){
+        if (radius <= 0) {
+            throw new IllegalArgumentException("Invalid radius of target!");
+        }
+        return Math.sqrt(Math.pow(Math.abs(this.x - x),2)+Math.pow(Math.abs(this.y - y), 2)) < this.radius + radius;
+    }
+
+    /**
+     * @Author Yaozheng Wang
+     * @Description Paint the shell
+     * @Date 2022/4/22 15:11
+     * @Param Graphics
+     * @Return null
+     **/
+    public void paint(Graphics g){
+        g.drawImage(icon,(int)(x - radius), (int)(y - radius),(int)(radius * 2),(int)(radius * 2), null);
+    }
+
     //-------------GETTER------------------------
     public float getX(){
         return x;
@@ -90,45 +115,14 @@ public class Shell {
     }
 
     public void setXSpeed(float xSpeed){
-//        if (xSpeed < 0) {
-//            throw new IllegalArgumentException("Invalid xSpeed of shell!");
-//        }
         this.xSpeed = xSpeed;
     }
 
     public void setYSpeed(float ySpeed){
-//        if (ySpeed < 0) {
-//            throw new IllegalArgumentException("Invalid ySpeed of shell!");
-//        }
         this.ySpeed = ySpeed;
     }
 
     public void setImage(Image icon){
         this.icon = icon;
-    }
-
-    /**
-    * @Author Yaozheng Wang
-    * @Description Check if the shell collision with target
-    * @Date 2022/4/22 15:03
-    * @Param target location x, location y and radius
-    * @Return returns true if shell overlaps with target
-    **/
-    public boolean checkCollision(float x, float y, float radius){
-        if (radius <= 0) {
-            throw new IllegalArgumentException("Invalid radius of target!");
-        }
-        return Math.sqrt(Math.pow(Math.abs(this.x - x),2)+Math.pow(Math.abs(this.y - y), 2)) < this.radius + radius;
-    }
-
-    /**
-    * @Author Yaozheng Wang
-    * @Description Paint the shell
-    * @Date 2022/4/22 15:11
-    * @Param Graphics
-    * @Return null
-    **/
-    public void paint(Graphics g){
-        g.drawImage(icon,(int)(x - radius), (int)(y - radius),(int)(radius * 2),(int)(radius * 2), null);
     }
 }
