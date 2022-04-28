@@ -7,8 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @ClassName HelpPage
@@ -36,7 +36,7 @@ public class HelpPage extends JPanel {
 
         // Read help image and catch exceptioon
         try {
-            helpImg = ImageIO.read(new File("images/helppage1.png"));
+            helpImg = ImageIO.read(Objects.requireNonNull(HelpPage.class.getResource("/com/ood/images/helppage1.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -134,11 +134,11 @@ public class HelpPage extends JPanel {
 
         try { // Try to update help page and catch exception
             switch(pageNumber) {
-                case 1: helpImg = ImageIO.read(new File("images/helppage1.png")); break;
-                case 2: helpImg = ImageIO.read(new File("images/helppage2.png")); break;
-                case 3: helpImg = ImageIO.read(new File("images/helppage3.png"));break;
-                case 4: helpImg = ImageIO.read(new File("images/helppage4.png"));break;
-                case 5: helpImg = ImageIO.read(new File("images/helppage5.png")); break;
+                case 1: helpImg = ImageIO.read(Objects.requireNonNull(HelpPage.class.getResource("/com/ood/images/helppage1.png"))); break;
+                case 2: helpImg = ImageIO.read(Objects.requireNonNull(HelpPage.class.getResource("/com/ood/images/helppage2.png"))); break;
+                case 3: helpImg = ImageIO.read(Objects.requireNonNull(HelpPage.class.getResource("/com/ood/images/helppage3.png")));break;
+                case 4: helpImg = ImageIO.read(Objects.requireNonNull(HelpPage.class.getResource("/com/ood/images/helppage4.png")));break;
+                case 5: helpImg = ImageIO.read(Objects.requireNonNull(HelpPage.class.getResource("/com/ood/images/helppage5.png"))); break;
             }
         } catch (IOException e) {
             e.printStackTrace();

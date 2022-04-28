@@ -12,6 +12,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.util.Objects;
 
 /**
  * @ClassName Menu
@@ -48,9 +49,9 @@ public class MenuPage {
         exitButton.setBounds(199, 300, 155, 67);
 
         try { // Try to read images and catch exception
-            playImg = ImageIO.read(new File("images/play.png"));
-            tutImg = ImageIO.read(new File("images/help.png"));
-            exitImg = ImageIO.read(new File("images/exit.png"));
+            playImg = ImageIO.read(Objects.requireNonNull(MenuPage.class.getResource("/com/ood/images/play.png")));
+            tutImg = ImageIO.read(Objects.requireNonNull(MenuPage.class.getResource("/com/ood/images/help.png")));
+            exitImg = ImageIO.read(Objects.requireNonNull(MenuPage.class.getResource("/com/ood/images/exit.png")));
             startButton.setIcon(new ImageIcon(playImg));
             tutorialButton.setIcon(new ImageIcon(tutImg));
             exitButton.setIcon(new ImageIcon(exitImg));
@@ -163,7 +164,7 @@ public class MenuPage {
         public void paintComponent(Graphics g){
             super.paintComponent(g);
             try {
-                g.drawImage(ImageIO.read(new File("images/startPanel.jpg")), 0, 0, null);
+                g.drawImage(ImageIO.read(Objects.requireNonNull(MenuPage.class.getResource("/com/ood/images/startPanel.jpg"))), 0, 0, null);
             } catch (IOException e) {
                 e.printStackTrace();
             }

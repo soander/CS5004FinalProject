@@ -2,8 +2,8 @@ package com.ood.objects;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @ClassName Shell
@@ -28,7 +28,7 @@ public class Shell {
         this.ySpeed = 0;
         setRadius(radius);
         try { // Get the shell image
-            icon = ImageIO.read(new File("images/shell.png")).getScaledInstance(256,256, Image.SCALE_SMOOTH);
+            icon = ImageIO.read(Objects.requireNonNull(Shell.class.getResource("/com/ood/images/shell.png"))).getScaledInstance(256,256, Image.SCALE_SMOOTH);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -42,7 +42,7 @@ public class Shell {
         this.ySpeed = 0;
         setRadius(radius);
         try { // Get the shell image
-            icon = ImageIO.read(new File("images/shell.png"));
+            icon = ImageIO.read(Objects.requireNonNull(Shell.class.getResource("/com/ood/images/shell.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }

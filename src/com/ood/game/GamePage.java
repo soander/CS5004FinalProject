@@ -11,8 +11,8 @@ import java.awt.event.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @ClassName Game
@@ -73,9 +73,9 @@ public class GamePage extends JPanel {
 
         // Try to read images and catch exception
         try {
-            barrelImg = ImageIO.read(new File("images/cannon.png"));
-            wheels = ImageIO.read(new File("images/wheel.png"));
-            background = ImageIO.read((new File(mapName)));
+            barrelImg = ImageIO.read(Objects.requireNonNull(GamePage.class.getResource("/com/ood/images/cannon.png")));
+            wheels = ImageIO.read(Objects.requireNonNull(GamePage.class.getResource("/com/ood/images/wheel.png")));
+            background = ImageIO.read(Objects.requireNonNull(GamePage.class.getResource("/com/ood/" + mapName)));
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,7 +1,6 @@
 package com.ood.maps;
 
 import com.ood.game.GamePage;
-
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -10,8 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * @ClassName SelectMaps
@@ -49,10 +48,10 @@ public class SelectPage extends JPanel {
         desertButton.setBounds(300, 200, 290, 160);
 
         try { // Try to read images and catch exception
-            BufferedImage iceImg = ImageIO.read(new File("images/ice.jpg"));
-            BufferedImage forestImg = ImageIO.read(new File("images/forest.jpg"));
-            BufferedImage mountainImg = ImageIO.read(new File("images/mountains.jpg"));
-            BufferedImage desertImg = ImageIO.read(new File("images/desert.jpg"));
+            BufferedImage iceImg = ImageIO.read(Objects.requireNonNull(SelectPage.class.getResource("/com/ood/images/ice.jpg")));
+            BufferedImage forestImg = ImageIO.read(Objects.requireNonNull(SelectPage.class.getResource("/com/ood/images/forest.jpg")));
+            BufferedImage mountainImg = ImageIO.read(Objects.requireNonNull(SelectPage.class.getResource("/com/ood/images/mountains.jpg")));
+            BufferedImage desertImg = ImageIO.read(Objects.requireNonNull(SelectPage.class.getResource("/com/ood/images/desert.jpg")));
 
             iceButton.setIcon(new ImageIcon(iceImg));
             forestButton.setIcon(new ImageIcon(forestImg));

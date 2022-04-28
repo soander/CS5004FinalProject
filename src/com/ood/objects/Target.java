@@ -3,8 +3,8 @@ package com.ood.objects;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -39,7 +39,7 @@ public class Target {
         setRadius(radius);
         setHit(false); // The hit condition is false
         try { // Get the target image
-            this.icon = ImageIO.read(new File("images/target.png"));
+            this.icon = ImageIO.read(Objects.requireNonNull(Target.class.getResource("/com/ood/images/target.png")));
         } catch (IOException e) {
             e.printStackTrace();
         }
